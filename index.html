@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,6 +14,10 @@
     --warm: #FF8C00;
     --cold: #4488FF;
     --ice: #88BBFF;
+    --pb-red: #FF2D4E;
+  }
+
+  .dark-mode {
     --bg: #08090F;
     --bg2: #0E1018;
     --bg3: #151823;
@@ -20,7 +25,16 @@
     --border: rgba(255,215,0,0.15);
     --text: #E8EAF0;
     --muted: #6B7280;
-    --pb-red: #FF2D4E;
+  }
+
+  .light-mode {
+    --bg: #F9F9F9;
+    --bg2: #FFFFFF;
+    --bg3: #F0F0F0;
+    --card: #FFFFFF;
+    --border: #E0E0E0;
+    --text: #333333;
+    --muted: #757575;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -31,6 +45,7 @@
     font-family: 'DM Sans', sans-serif;
     min-height: 100vh;
     overflow-x: hidden;
+    transition: background-color 0.3s, color 0.3s;
   }
 
   /* Starfield background */
@@ -52,6 +67,10 @@
     z-index: 0;
   }
 
+  .light-mode body::before {
+    display: none;
+  }
+
   .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1; }
 
   /* HEADER */
@@ -61,6 +80,57 @@
     border-bottom: 1px solid var(--border);
     position: relative;
     z-index: 1;
+  }
+
+  .theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  
+  input:checked + .slider {
+    background-color: var(--gold);
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
   }
 
   .logo-badge {
@@ -125,6 +195,7 @@
     padding: 24px;
     position: relative;
     overflow: hidden;
+    transition: background-color 0.3s, border-color 0.3s;
   }
 
   .card::before {
@@ -276,6 +347,10 @@
     opacity: 0;
     transform: translateY(10px);
   }
+  
+  .light-mode .ticket {
+    background: linear-gradient(135deg, #FFFFFF, #F0F0F0);
+  }
 
   @keyframes slideIn {
     to { opacity: 1; transform: translateY(0); }
@@ -307,6 +382,10 @@
   .score-high { background: rgba(255,215,0,0.15); color: var(--gold); border: 1px solid rgba(255,215,0,0.3); }
   .score-mid { background: rgba(255,140,0,0.15); color: var(--warm); border: 1px solid rgba(255,140,0,0.3); }
   .score-low { background: rgba(68,136,255,0.15); color: var(--ice); border: 1px solid rgba(68,136,255,0.3); }
+  
+  .light-mode .score-high { background: #FFF9C4; color: #FBC02D; border-color: #FDD835; }
+  .light-mode .score-mid { background: #FFE0B2; color: #FB8C00; border-color: #FFB74D; }
+  .light-mode .score-low { background: #D1E7FF; color: #4488FF; border-color: #90CAF9; }
 
   .balls-row {
     display: flex;
@@ -337,6 +416,13 @@
     color: var(--text);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 2px 8px rgba(0,0,0,0.4);
   }
+  
+  .light-mode .ball-normal {
+    background: #E0E0E0;
+    border-color: #BDBDBD;
+    color: #333333;
+    box-shadow: none;
+  }
 
   .ball-hot {
     background: radial-gradient(circle at 35% 35%, #FF6B35, #CC2200);
@@ -366,6 +452,11 @@
     box-shadow: 0 2px 16px rgba(255,40,80,0.6);
     width: 52px; height: 52px;
     font-size: 16px;
+  }
+  
+  .light-mode .ball-hot, .light-mode .ball-warm, .light-mode .ball-cold, .light-mode .ball-powerball {
+    color: white;
+    box-shadow: none;
   }
 
   .plus-sep {
@@ -502,6 +593,10 @@
     top: 50%;
     transform: translateY(-50%);
   }
+  
+  .light-mode .bar-val {
+    color: var(--text);
+  }
 
   /* RECENT DRAWS */
   .draw-table {
@@ -526,6 +621,10 @@
     border-bottom: 1px solid rgba(255,215,0,0.05);
     font-size: 12px;
     vertical-align: middle;
+  }
+  
+  .light-mode .draw-table td {
+    border-bottom: 1px solid var(--border);
   }
 
   .draw-table tr:last-child td { border-bottom: none; }
@@ -552,11 +651,21 @@
     border: 1px solid rgba(255,255,255,0.1);
     color: var(--text);
   }
+  
+  .light-mode .mini-ball {
+    border-color: #BDBDBD;
+  }
 
   .mini-pb {
     background: rgba(255,45,78,0.2);
     border-color: rgba(255,45,78,0.4);
     color: var(--pb-red);
+  }
+  
+  .light-mode .mini-pb {
+    background: #FFCDD2;
+    border-color: #EF9A9A;
+    color: #C62828;
   }
 
   /* AI INSIGHT */
@@ -570,6 +679,12 @@
     line-height: 1.7;
     color: rgba(232,234,240,0.85);
     position: relative;
+  }
+  
+  .light-mode .ai-box {
+    background: #FFFDE7;
+    border-color: #FFF59D;
+    color: #5D4037;
   }
 
   .ai-box::before {
@@ -601,8 +716,8 @@
     margin: 0 auto 16px;
   }
 
-  @keyframes spin { to { transform: rotate(360deg); } }
-
+  @keyframes spin { to { transform: rotate(360deg); } }\
+  
   .empty-state {
     text-align: center;
     padding: 40px 20px;
@@ -636,6 +751,12 @@
     border-color: var(--pb-red);
     color: var(--pb-red);
   }
+  
+  .light-mode .range-btn.active {
+    background: #FFCDD2;
+    border-color: #EF9A9A;
+    color: #C62828;
+  }
 
   /* OVERDUE SECTION */
   .overdue-grid {
@@ -661,6 +782,10 @@
     font-size: 16px;
     font-weight: 700;
     color: var(--ice);
+  }
+  
+  .light-mode .overdue-num {
+    color: #4488FF;
   }
 
   .overdue-draws {
@@ -708,9 +833,15 @@
   }
 </style>
 </head>
-<body>
+<body class="dark-mode">
 
 <header>
+  <div class="theme-switcher">
+    <label class="switch">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </div>
   <div class="logo-badge">🇦🇺 Australia Powerball</div>
   <h1>Number Oracle</h1>
   <p class="subtitle">Statistical Analysis &amp; Smart Recommendations</p>
@@ -845,10 +976,29 @@
 </footer>
 
 <script>
-// ============================================================
-// REAL AUSTRALIAN POWERBALL DATA (2021–2026)
-// Format: [n1,n2,n3,n4,n5,n6,n7, pb]  (7 main + 1 powerball)
-// ============================================================
+// ============================================================\
+// THEME SWITCHER
+// ============================================================\
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+function setTheme(theme) {
+  body.className = theme;
+  localStorage.setItem('theme', theme);
+  themeToggle.checked = theme === 'dark-mode';
+}
+
+themeToggle.addEventListener('change', () => {
+  setTheme(themeToggle.checked ? 'dark-mode' : 'light-mode');
+});
+
+const savedTheme = localStorage.getItem('theme') || 'dark-mode';
+setTheme(savedTheme);
+
+// ============================================================\
+// REAL AUSTRALIAN POWERBALL DATA (2021–2026)\
+// Format: [n1,n2,n3,n4,n5,n6,n7, pb]  (7 main + 1 powerball)\
+// ============================================================\
 const DRAWS = [
   // 2026
   [3,8,12,19,24,27,33,7],
@@ -1039,7 +1189,7 @@ const DRAWS = [
   [1,8,14,17,19,21,26,1],
 ];
 
-// Recent 20 draws with dates for display
+// Recent 20 draws with dates for display\
 const RECENT_DRAWS_DISPLAY = [
   { date: "09 Jan 2026", nums: [3,8,12,19,24,27,33], pb: 7 },
   { date: "02 Jan 2026", nums: [5,10,14,18,22,29,34], pb: 3 },
@@ -1063,9 +1213,9 @@ const RECENT_DRAWS_DISPLAY = [
   { date: "28 Nov 2024", nums: [1,4,9,10,22,26,31], pb: 14 },
 ];
 
-// ============================================================
+// ============================================================\
 // STATISTICS ENGINE
-// ============================================================
+// ============================================================\
 const MAIN_MAX = 35;
 const PB_MAX = 20;
 
@@ -1128,9 +1278,9 @@ function computeTicketScore(nums, pb) {
   return Math.round(Math.min(score, 100));
 }
 
-// ============================================================
+// ============================================================\
 // GENERATION STRATEGIES
-// ============================================================
+// ============================================================\
 let selectedStrategy = 'hot';
 let ticketCount = 1;
 
@@ -1269,9 +1419,9 @@ function generateTickets() {
   btn.disabled = false;
 }
 
-// ============================================================
+// ============================================================\
 // RENDER STATS
-// ============================================================
+// ============================================================\
 function renderHotBalls() {
   const top10 = STATS.sorted.slice(0, 10);
   document.getElementById('hotBalls').innerHTML = top10.map(([n, c]) => `
@@ -1361,9 +1511,9 @@ function switchTab(name, el) {
   document.getElementById('tab-' + name).classList.add('active');
 }
 
-// ============================================================
+// ============================================================\
 // INIT
-// ============================================================
+// ============================================================\
 renderHotBalls();
 renderColdBalls();
 renderPBFreq();
